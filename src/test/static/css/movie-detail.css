@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #F2F2F2 !important;
+}
+a {
+    text-decoration: none !important;
+}
+body div.container {
+
+}
+.m-detail {
+    margin-top: 50px;
+}
+.m-detail-info ul {
+    list-style: none;
+}
+.m-detail-img,m-detail-info{
+    float: left;
+    margin-right: 50px;
+}
+.movie-detail {
+    overflow: hidden;
+}
+
+.play-movie {
+    margin-top: 10px;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    width: 80px;
+    display: inline-block;
+    line-height: 30px;
+    background-color: #9d9d9d;
+    border-radius: 2px;
+}
+.play-movie:hover {
+    color: white;
+    background: #268dcd;
+}
