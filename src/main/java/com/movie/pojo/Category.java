@@ -1,6 +1,8 @@
 package com.movie.pojo;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
     private Byte cId;
 
     private String cName;
