@@ -1,6 +1,8 @@
 package com.movie.pojo;
 
-public class CenterLoop {
+import java.io.Serializable;
+
+public class CenterLoop implements Serializable {
     private String videoId;
 
     private String image;

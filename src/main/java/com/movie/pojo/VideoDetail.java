@@ -1,8 +1,9 @@
 package com.movie.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VideoDetail {
+public class VideoDetail implements Serializable {
     private String videoId;
 
     private String userId;

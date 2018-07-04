@@ -1,6 +1,8 @@
 package com.movie.pojo;
 
-public class Sub {
+import java.io.Serializable;
+
+public class Sub  implements Serializable {
     private String userId;
 
     private String videoId;
