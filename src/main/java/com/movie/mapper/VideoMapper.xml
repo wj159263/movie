@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.movie.mapper.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.movie.pojo.Video" >
+    <id column="video_id" property="videoId" jdbcType="VARCHAR" />
+    <result column="c_id" property="cId" jdbcType="TINYINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="playurl" property="playurl" jdbcType="VARCHAR" />
+    <result column="show_time" property="showTime" jdbcType="DATE" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="playtimes" property="playtimes" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.movie.pojo.Video" extends="BaseResultMap" >
+    <result column="introduce" property="introduce" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    video_id, c_id, name, title, image, playurl, show_time, country, playtimes, score, 
+    state
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduce
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.movie.pojo.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.movie.pojo.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from video
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.movie.pojo.VideoExample" >
+    delete from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.movie.pojo.Video" >
+    insert into video (video_id, c_id, name, 
+      title, image, playurl, 
+      show_time, country, playtimes, 
+      score, state, introduce
+      )
+    values (#{videoId,jdbcType=VARCHAR}, #{cId,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{playurl,jdbcType=VARCHAR}, 
+      #{showTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{playtimes,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{state,jdbcType=TINYINT}, #{introduce,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.movie.pojo.Video" >
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="videoId != null" >
+        video_id,
+      </if>
+      <if test="cId != null" >
+        c_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="playurl != null" >
+        playurl,
+      </if>
+      <if test="showTime != null" >
+        show_time,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="playtimes != null" >
+        playtimes,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="videoId != null" >
+        #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="cId != null" >
+        #{cId,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="playurl != null" >
+        #{playurl,jdbcType=VARCHAR},
+      </if>
+      <if test="showTime != null" >
+        #{showTime,jdbcType=DATE},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="playtimes != null" >
+        #{playtimes,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.movie.pojo.VideoExample" resultType="java.lang.Integer" >
+    select count(*) from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update video
+    <set >
+      <if test="record.videoId != null" >
+        video_id = #{record.videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cId != null" >
+        c_id = #{record.cId,jdbcType=TINYINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playurl != null" >
+        playurl = #{record.playurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showTime != null" >
+        show_time = #{record.showTime,jdbcType=DATE},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playtimes != null" >
+        playtimes = #{record.playtimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.introduce != null" >
+        introduce = #{record.introduce,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update video
+    set video_id = #{record.videoId,jdbcType=VARCHAR},
+      c_id = #{record.cId,jdbcType=TINYINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      playurl = #{record.playurl,jdbcType=VARCHAR},
+      show_time = #{record.showTime,jdbcType=DATE},
+      country = #{record.country,jdbcType=VARCHAR},
+      playtimes = #{record.playtimes,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      state = #{record.state,jdbcType=TINYINT},
+      introduce = #{record.introduce,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update video
+    set video_id = #{record.videoId,jdbcType=VARCHAR},
+      c_id = #{record.cId,jdbcType=TINYINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      playurl = #{record.playurl,jdbcType=VARCHAR},
+      show_time = #{record.showTime,jdbcType=DATE},
+      country = #{record.country,jdbcType=VARCHAR},
+      playtimes = #{record.playtimes,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      state = #{record.state,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.movie.pojo.Video" >
+    update video
+    <set >
+      <if test="cId != null" >
+        c_id = #{cId,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="playurl != null" >
+        playurl = #{playurl,jdbcType=VARCHAR},
+      </if>
+      <if test="showTime != null" >
+        show_time = #{showTime,jdbcType=DATE},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="playtimes != null" >
+        playtimes = #{playtimes,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="introduce != null" >
+        introduce = #{introduce,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.movie.pojo.Video" >
+    update video
+    set c_id = #{cId,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      playurl = #{playurl,jdbcType=VARCHAR},
+      show_time = #{showTime,jdbcType=DATE},
+      country = #{country,jdbcType=VARCHAR},
+      playtimes = #{playtimes,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      state = #{state,jdbcType=TINYINT},
+      introduce = #{introduce,jdbcType=LONGVARCHAR}
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.movie.pojo.Video" >
+    update video
+    set c_id = #{cId,jdbcType=TINYINT},
+      name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      playurl = #{playurl,jdbcType=VARCHAR},
+      show_time = #{showTime,jdbcType=DATE},
+      country = #{country,jdbcType=VARCHAR},
+      playtimes = #{playtimes,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      state = #{state,jdbcType=TINYINT}
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+</mapper>
