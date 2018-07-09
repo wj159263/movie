@@ -1,6 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../common/tag.jsp"%>
 <html>
+
+<style>
+    @font-face{
+        font-family:'icomoon';
+        src:url('../../css/fonts/icomoon.eot');
+        src:url('../../css/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+        url('../../css/fonts/icomoon.woff') format('woff'),
+        url('../../css/fonts/icomoon.ttf')  format('truetype'),
+        url('../../css/fonts/icomoon.svg#SofiaProLight')  format('svg');
+        font-weight:normal;
+        font-style:normal;
+    }
+    span.icom {
+        font-family:'icomoon' ;
+    }
+
+
+</style>
+
 <head>
     <title>后台管理系统</title>
     <%@include file="../common/link.jsp"%>
@@ -13,14 +32,14 @@
             <li>
                 <span>视频管理</span>
                 <ul>
-                    <li data-options="attributes:{'url':'item-add'}">新增视频</li>
-                    <li data-options="attributes:{'url':'item-list'}">查询视频</li>
+                    <li data-options="attributes:{'url':'/manager/video-add'}">新增视频</li>
+                    <li data-options="attributes:{'url':'/manager/video-list'}">查询视频</li>
                 </ul>
             </li>
             <li>
                 <span>首页管理</span>
                 <ul>
-                    <li data-options="attributes:{'url':'content-category'}">轮播图管理</li>
+                    <li data-options="attributes:{'url':'/manager/loop'}">轮播图管理</li>
                 </ul>
             </li>
         </ul>
@@ -28,7 +47,7 @@
 
     <div data-options="region:'center',title:''" style="padding:5px;background:#eee;">
         <div id="tt" class="easyui-tabs" data-options="fit:true">
-            <div title="Tab1" style="padding:20px;display:none;">
+            <div title=" <span class='icom'></span>">
 
             </div>
 
@@ -37,6 +56,8 @@
 </div>
 <script type="text/javascript">
     $(function () {
+
+
         $('#menu').tree({
             // 在用户点击的时候
             onClick: function(node){
@@ -46,7 +67,7 @@
                     } else {
                         $('#tt').tabs('add', {
                             title: node.text,
-                            content: 'Tab Body',
+                            href: node.attributes.url,
                             closable: true
                         });
                     }

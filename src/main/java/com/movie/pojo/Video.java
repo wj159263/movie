@@ -28,12 +28,32 @@ public class Video implements Serializable {
 
     private String introduce;
 
+    private Category category;
+
+    private VideoDetail videoDetail;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public VideoDetail getVideoDetail() {
+        return videoDetail;
+    }
+
+    public void setVideoDetail(VideoDetail videoDetail) {
+        this.videoDetail = videoDetail;
+    }
+
     public String getVideoId() {
         return videoId;
     }
 
     public void setVideoId(String videoId) {
-        this.videoId = videoId == null ? null : videoId.trim();
+        this.videoId = videoId;
     }
 
     public Byte getcId() {
@@ -49,7 +69,7 @@ public class Video implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getTitle() {
@@ -57,7 +77,7 @@ public class Video implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public String getImage() {
@@ -65,7 +85,7 @@ public class Video implements Serializable {
     }
 
     public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
+        this.image = image;
     }
 
     public String getPlayurl() {
@@ -73,7 +93,7 @@ public class Video implements Serializable {
     }
 
     public void setPlayurl(String playurl) {
-        this.playurl = playurl == null ? null : playurl.trim();
+        this.playurl = playurl;
     }
 
     public Date getShowTime() {
@@ -89,7 +109,7 @@ public class Video implements Serializable {
     }
 
     public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
+        this.country = country;
     }
 
     public Integer getPlaytimes() {
@@ -121,6 +141,6 @@ public class Video implements Serializable {
     }
 
     public void setIntroduce(String introduce) {
-        this.introduce = introduce == null ? null : introduce.trim();
+        this.introduce = introduce;
     }
 }

@@ -1,14 +1,22 @@
 package com.movie.controller;
 
+import com.movie.dto.EyUIGridResult;
+import com.movie.dto.VideoResult;
+import com.movie.enums.VideoEnum;
+import com.movie.pojo.User;
 import com.movie.pojo.Video;
 import com.movie.pojo.VideoDetail;
 import com.movie.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -17,16 +25,35 @@ public class VideoController {
 
     @Autowired
     VideoService videoService;
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
-    @RequestMapping("/sudo/insert")
+    @RequestMapping(value = "/sudo/insert",method = RequestMethod.POST)
     @ResponseBody
-    public int insertVideo(Video video, VideoDetail videoDetail){
-        return videoService.insertVideo(video, videoDetail);
+    public VideoResult insertVideo(Video video, HttpSession session)throws Exception{
+        //从session中取上传者id
+        User upUser = (User)session.getAttribute("user");
+        VideoDetail videoDetail = new VideoDetail();
+        if(upUser != null) {
+            videoDetail.setUserId(upUser.getUserId());
+        }
+       return videoService.insertVideo(video, videoDetail);
+
+    }
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public EyUIGridResult selectVideoList(Integer page, Integer rows, String name) throws Exception {
+        return videoService.selectVideoList(page, rows, name);
     }
 
     @RequestMapping("/sudo/delete/{id}")
     @ResponseBody
-    public int deleteVideo(@PathVariable("id") String id){
+    public VideoResult deleteVideo(@PathVariable("id") String id)throws Exception{
         return videoService.deleteVideoById(id);
     }
 
@@ -38,8 +65,14 @@ public class VideoController {
 
     @RequestMapping("/sudo/update")
     @ResponseBody
-    public int updateVideoById(Video video, VideoDetail videoDetail){
+    public VideoResult updateVideoById(Video video, VideoDetail videoDetail)throws Exception{
         return videoService.updateVideoById(video, videoDetail);
+    }
+
+    @RequestMapping("/sudo/deletebach")
+    @ResponseBody
+    public VideoResult deletebachByIds(String[] ids)throws Exception{
+        return videoService.deletebachByIds(ids);
     }
 
 }

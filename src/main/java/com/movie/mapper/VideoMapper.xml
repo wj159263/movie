@@ -18,6 +18,36 @@
     <result column="introduce" property="introduce" jdbcType="LONGVARCHAR" />
   </resultMap>
 
+  <resultMap id="SuperResultMap" type="com.movie.pojo.Video" extends="ResultMapWithBLOBs" >
+    <association property="category" javaType="com.movie.pojo.Category">
+      <id property="cId" column="c_id" />
+      <result property="cName" column="c_name" />
+      <result property="isParent" column="is_parent" />
+      <result property="parentId" column="parent_id" />
+    </association>
+    <association property="videoDetail" javaType="com.movie.pojo.VideoDetail">
+      <result property="videoId" column="video_id" />
+      <result property="userId" column="user_id" />
+      <result property="uptime" column="uptime" />
+      <result property="updated" column="updated" />
+      <association property="user" javaType="com.movie.pojo.User">
+        <id column="user_id" property="userId"/>
+        <result column="account" property="account"/>
+        <result column="parrword" property="parrword"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="mail" property="mail"/>
+        <result column="state" property="state"/>
+        <result column="phone" property="phone"/>
+        <result column="image" property="image"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <result column="type" property="type"/>
+      </association>
+    </association>
+
+  </resultMap>
+
+
   <sql id="insertActivePre">
     <trim prefix="(" suffix=")" suffixOverrides="," >
       video_id,c_id,
@@ -33,7 +63,7 @@
       <if test="playurl != null">
         playurl,
       </if>
-      <if test="show_time != null">
+      <if test="showTime != null">
         show_time,
       </if>
       <if test="country != null">
@@ -56,7 +86,7 @@
 
   <sql id="insertActiveSub">
     <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
-      #{video_id}, #{c_id},
+      #{videoId}, #{cId},
       <if test="name != null">
         #{name},
       </if>
@@ -69,8 +99,8 @@
       <if test="playurl != null">
         #{playurl},
       </if>
-      <if test="show_time != null">
-        #{show_time},
+      <if test="showTime != null">
+        #{showTime},
       </if>
       <if test="country != null">
         #{country},
@@ -92,8 +122,8 @@
 
   <sql id="updateActive">
     <trim prefix="SET " suffixOverrides=",">
-      <if test="c_id != null">
-        c_id = #{c_id},
+      <if test="cId != null">
+        c_id = #{cId},
       </if>
       <if test="name != null">
         name = #{name},
@@ -107,8 +137,8 @@
       <if test="playurl != null">
         playurl = #{playurl},
       </if>
-      <if test="show_time != null">
-        show_time = #{show_time},
+      <if test="showTime != null">
+        show_time = #{showTime},
       </if>
       <if test="country != null">
         country = #{country},
@@ -140,7 +170,31 @@
     FROM video
     where video_id = #{id} AND state = 1
   </select>
-  
+
+  <select id="selectVideoList" resultMap="SuperResultMap">
+      SELECT a.video_id,vd.uptime,vd.updated,u.nick_name,c.c_name,a.name,a.title,a.image,a.playurl,a.show_time,a.country,a.playtimes,a.score,a.state,a.introduce
+      FROM (SELECT video_id,c_id,name,title,image,playurl,show_time,country,playtimes,score,state,introduce
+            FROM video
+            WHERE  state = 1 and name like #{name}
+            LIMIT #{start},#{rows})
+       a,category c,user u,video_detail vd
+      WHERE a.c_id = c.c_id and a.video_id = vd.video_id and vd.user_id = u.user_id
+      ORDER BY a.show_time DESC
+  </select>
+
+  <select id="selectVideoCount" resultType="long">
+   SELECT count(1)
+      FROM (SELECT video_id,c_id,name,title,image,playurl,show_time,country,playtimes,score,state,introduce
+            FROM video
+            WHERE  state = 1 and name like #{name})
+       a,category c,user u,video_detail vd
+      WHERE a.c_id = c.c_id and a.video_id = vd.video_id and vd.user_id = u.user_id
+  </select>
+
+  <select id="selectVideoTotalCount" resultType="long">
+     SELECT count(video_id) from video
+  </select>
+
   <insert id="insertVideo" parameterType="com.movie.pojo.Video" >
     INSERT INTO  video <include refid="insertActivePre"/> <include refid="insertActiveSub" />
   </insert>
