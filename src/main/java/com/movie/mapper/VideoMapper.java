@@ -1,5 +1,6 @@
 package com.movie.mapper;
 
+import com.movie.dto.EyUIGridResult;
 import com.movie.pojo.Video;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,26 @@ public interface VideoMapper {
    * @return Video对象
    */
   public Video selectVideoByIdWithBlobs(String id);
+
+  /**
+   * 分页查询多条视频
+   * @param start 开始记录
+   * @param rows 查询的记录数
+   * @return
+   */
+  public List<Video> selectVideoList(@Param("start") int start, @Param("rows") int rows, @Param("name") String name);
+
+  /**
+   * 条件查询的视频的数量
+   * @return
+   */
+  public long selectVideoCount(@Param("name") String name);
+
+  /**
+   * 查询的视频的总数量
+   * @return
+   */
+  public long selectVideoTotalCount();
 
     /**
      * 添加视频
