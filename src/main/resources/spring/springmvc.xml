@@ -18,6 +18,7 @@
     <!-- 资源映射 -->
     <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
     <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+    <mvc:resources location="/WEB-INF/bootstrap-3.3.7" mapping="/bootstrap-3.3.7/**"/>
     <mvc:resources location="/WEB-INF/images/" mapping="/images/**"/>
 
     <!-- 定义文件上传解析器 -->

@@ -78,42 +78,78 @@ $(function () {
         ]],
         toolbar: [
             {
-                iconCls: ""
-
-            },'-',{
-            text:"修改",
-            iconCls: 'icom-edit',
-            handler: function(){
+            text:"加入轮播图",
+            iconCls: 'icom-loop',
+            handler: function() {
                 var arr = $('#dg').datagrid("getSelections");
-                if (arr.length <= 0 ){
-                    return;
+                var ids = [];
+                var imgs = [];
+                for(e in arr){
+                    ids.push(arr[e].videoId);
+                    imgs.push(arr[e].image);
                 }
-                if(arr.length > 1){
-                    $.messager.show({
-                        title:'提示',
-                        msg:'修改时只能选中1条数据!',
-                        timeout:1500,
-                        showType:'slide',
-                        closable:false,
-                        style:{
-                            right:'',
-                            top:document.body.scrollTop+document.documentElement.scrollTop,
-                            bottom:''
-                        }
-                    });
-                    return ;
-                }
-                //todo dasda
-                $('#win').window({
-                    width:1200,
-                    height:600,
-                    title:"修改页面",
-                    modal:true,
-                    href : "/manager/video-edit"
+                $.messager.confirm('确认','您确认将记录添加到轮播图吗？',function(r){
+                    if (r){
+                        $.ajax({
+                            url : '/loop/sudo/insert',
+                            method:'POST',
+                            //traditional:true不写时,则controller接收不是ids，而是ids[]
+                            traditional:true,
+                            data:{ids:ids,imgs:imgs},
+                            dataType:'json',
+                            success: function (data) {
+                                if((data.state) == 200){
+                                    $.messager.alert('',"成功添加了"+data.data+"条记录到轮播图！",'info');
+                                }else{
+                                    $.messager.alert('添加错误','请联系管理员！','error');
+                                }
+                                //请除所有勾选的行
+                                $("#dg").datagrid("clearSelections");
+                            },error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.messager.alert('添加错误','请联系管理员！','error');
+                            }
+                        });
+                    }
                 });
 
+                //轮播图借宿
             }
         },'-',{
+                text:"修改",
+                iconCls: 'icom-edit',
+                handler: function(){
+                    var arr = $('#dg').datagrid("getSelections");
+                    if (arr.length <= 0 ){
+                        return;
+                    }
+                    if(arr.length > 1){
+                        $.messager.show({
+                            title:'提示',
+                            msg:'修改时只能选中1条数据!',
+                            timeout:1500,
+                            showType:'slide',
+                            closable:false,
+                            style:{
+                                right:'',
+                                top:document.body.scrollTop+document.documentElement.scrollTop,
+                                bottom:''
+                            }
+                        });
+                        return ;
+                    }
+                    //todo dasda
+                    $('#win').window({
+                        width:1200,
+                        height:600,
+                        title:"修改页面",
+                        modal:true,
+                        href : "/manager/video-edit"
+                    });
+
+                }
+            }
+
+        ,'-',{
             text:"删除",
             iconCls: 'icom-delete',
             handler: function(){
@@ -125,7 +161,7 @@ $(function () {
                 $.messager.confirm('确认','您确认想要删除记录吗？',function(r){
                     if (r){
                         $.ajax({
-                            url : '/video/sudo/deletebach',
+                            url : '/video/sudo/deletebtach',
                             method:'POST',
                             //traditional:true不写时,则controller接收不是ids，而是ids[]
                             traditional:true,
@@ -164,7 +200,7 @@ $(function () {
                 name: "%"+value+"%"
             });
         },
-        prompt:'请输入值'
+        prompt:'请输入视频名称'
     });
 
 });
@@ -179,6 +215,11 @@ $(function () {
         font-family:'icomoon' ;
         font-size: 16px;
         content: '\e9ac';
+    }
+    span.icom-loop::before {
+        font-family:'icomoon' ;
+        font-size: 16px;
+        content: '\e90d';
     }
 
 </style>
