@@ -38,7 +38,10 @@ var movie  = {
                                     $('span.showCat').show();
 
                                     // e.parentsUntil("td").find("[name=cId]").val(node.id);
+
                                     $(e).siblings("[name=cId]").val(node.id);
+                                    $("#shidden").attr({type:"hidden"});
+                                    //$("#shidden").hide();
                                     //选好了就关闭窗口
                                     //$('#wind').window("close");
                                     $(_win).window("close");
@@ -80,6 +83,7 @@ var movie  = {
                             var imgArray = [];
                             KindEditor.each(urlList, function(i, data) {
                                 imgArray.push(data.url);
+                                $("#vimg").remove();
                                 form.find(".pics ul").append("<li><a href='"+data.url+"' target='_blank'><img src='"+data.url+"' width='80' height='50' /></a></li>");
                             });
                             form.find("[name=image]").val(imgArray.join(","));

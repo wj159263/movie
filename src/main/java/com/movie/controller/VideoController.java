@@ -69,7 +69,7 @@ public class VideoController {
         return videoService.updateVideoById(video, videoDetail);
     }
 
-    @RequestMapping("/sudo/deletebach")
+    @RequestMapping("/sudo/deletebatch")
     @ResponseBody
     public VideoResult deletebachByIds(String[] ids)throws Exception{
         return videoService.deletebachByIds(ids);
