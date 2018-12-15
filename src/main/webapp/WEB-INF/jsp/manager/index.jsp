@@ -32,14 +32,14 @@
             <li>
                 <span>视频管理</span>
                 <ul>
-                    <li data-options="attributes:{'url':'/manager/video-add'}">新增视频</li>
-                    <li data-options="attributes:{'url':'/manager/video-list'}">查询视频</li>
+                    <li data-options="attributes:{'url':'/gopage/manager/video-add'}">新增视频</li>
+                    <li data-options="attributes:{'url':'/gopage/manager/video-list'}">查询视频</li>
                 </ul>
             </li>
             <li>
                 <span>首页管理</span>
                 <ul>
-                    <li data-options="attributes:{'url':'/manager/loop'}">轮播图管理</li>
+                    <li data-options="attributes:{'url':'/gopage/manager/loop'}">轮播图管理</li>
                 </ul>
             </li>
         </ul>

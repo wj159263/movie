@@ -69,6 +69,7 @@
 
                     </td>
                 </tr>
+                <tr><td><img src="/WEB-INF/images/loop1.jpg" alt="552222"></td>55662</tr>
                 <tr>
                     <td>视频名称:</td>
                     <td><input class="easyui-textbox" type="text" name="name" style="width: 280px;"></input></td>
@@ -104,6 +105,7 @@
             </table>
             <input type="hidden" name="playtimes" value="0"></input>
             <input type="hidden" name="state" value="1"></input>
+            <input type="hidden" name="userId" value="2"></input>
         </form>
         <div style="padding:5px">
             <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>

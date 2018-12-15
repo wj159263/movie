@@ -1,9 +1,13 @@
 package com.movie.service;
 
 import com.movie.dto.EyUIGridResult;
+import com.movie.dto.VideoPortalDto;
 import com.movie.dto.VideoResult;
 import com.movie.pojo.Video;
 import com.movie.pojo.VideoDetail;
+
+import java.util.List;
+import java.util.Map;
 
 public interface VideoService {
     /**
@@ -57,5 +61,18 @@ public interface VideoService {
      * @return 操作结果
      */
     public  VideoResult updateVideoById(Video video, VideoDetail videoDetail)throws Exception;
+
+    /**
+     * 简单查询视频，用于protal首页用
+     * @return
+     */
+    public List<VideoPortalDto> selectVideosSimple();
+
+    /**
+     * 根据视频名称查找视频
+     * @param videoName 视频名称
+     * @return
+     */
+    public  List<Video> selectByName(String videoName);
 
 }

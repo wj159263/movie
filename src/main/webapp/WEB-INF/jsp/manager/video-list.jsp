@@ -143,7 +143,7 @@ $(function () {
                         height:600,
                         title:"修改页面",
                         modal:true,
-                        href : "/manager/video-edit"
+                        href : "/gopage/manager/video-edit"
                     });
 
                 }
