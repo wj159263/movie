@@ -69,7 +69,6 @@
 
                     </td>
                 </tr>
-                <tr><td><img src="/WEB-INF/images/loop1.jpg" alt="552222"></td>55662</tr>
                 <tr>
                     <td>视频名称:</td>
                     <td><input class="easyui-textbox" type="text" name="name" style="width: 280px;"></input></td>
