@@ -53,6 +53,8 @@ public class VideoController {
         //从session中取上传者id
         User upUser = (User)session.getAttribute("user");
         VideoDetail videoDetail = new VideoDetail();
+        //todo 临时用，日后要修改
+        videoDetail.setUserId("2");
         if(upUser != null) {
             videoDetail.setUserId(upUser.getUserId());
         }

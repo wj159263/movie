@@ -186,7 +186,7 @@ $(function () {
 
             }
         },'-',{
-                text:"地址：<input type='text' id='searchbox' name='name'/>",
+                text:"名称：<input type='text' id='searchbox' name='name'/>",
             }]
 
     }
