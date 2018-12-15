@@ -203,8 +203,15 @@
     DELETE FROM  VIDEO WHERE video_id = #{id}
   </delete>
 
+  <select id="selectVideosSimple" resultType="map">
+   SELECT v.video_id videoId,v.c_id cId,c.c_name cName,v.NAME videoName,v.image image,v.playurl playurl,v.score score from video v,category c where
+     v.c_id =c.c_id
+  </select>
+
   <update id="updateVideoById" parameterType="com.movie.pojo.Video">
     UPDATE video <include refid="updateActive" /> WHERE video_id = #{video_id}
   </update>
-
+<select id="selectByName" resultType="com.movie.pojo.Video">
+  SELECT * from video where name LIKE concat('%',#{videoName},'%')
+</select>
 </mapper>

@@ -3,7 +3,9 @@
 <link rel="stylesheet" href="../../css/movie.css">
 <link rel="stylesheet" href="../../css/manager.css">
 <link rel="stylesheet" href="../../css/movie-detail.css">
+<link rel="stylesheet" href="../../js/bootstrap-3.3.7/css/bootstrap.css">
 <script type="text/javascript" src="../../js/common/common.js"></script>
 <script type="text/javascript" src="../../js/jquery-easyui-1.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="../../js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../../js/bootstrap-3.3.7/js/bootstrap.js"></script>

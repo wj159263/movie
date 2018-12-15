@@ -1,23 +1,31 @@
 package com.movie.controller;
 
 import com.movie.dto.EyUIGridResult;
+import com.movie.dto.VideoPortalDto;
 import com.movie.dto.VideoResult;
 import com.movie.enums.VideoEnum;
+import com.movie.pojo.Category;
 import com.movie.pojo.User;
 import com.movie.pojo.Video;
 import com.movie.pojo.VideoDetail;
+import com.movie.service.CategoryService;
+import com.movie.service.CenterLoopService;
 import com.movie.service.VideoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/video")
@@ -25,6 +33,13 @@ public class VideoController {
 
     @Autowired
     VideoService videoService;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    CenterLoopService centerLoopService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -74,5 +89,34 @@ public class VideoController {
     public VideoResult deletebachByIds(String[] ids)throws Exception{
         return videoService.deletebachByIds(ids);
     }
+//-*************portal页面的后台方法********************
+    @RequestMapping("/portal")
+    public String showPortalIndex(Model model)throws Exception{
+        List<VideoPortalDto> value = videoService.selectVideosSimple();
+        List<Category> result = categoryService.selectCategories();
+        EyUIGridResult result1 = centerLoopService.selectList(1,100);
+        model.addAttribute("centerLoopList",result1.getRows());
+        model.addAttribute("videoList",value);
+        model.addAttribute("categories",result);
+        return "portal/index";
+    }
 
+    @RequestMapping("/selectSyc/{id}")
+    public String selectVideoById(Model model, @PathVariable("id") String id){
+        Video video= videoService.selectVideoById(id);
+        model.addAttribute("video",video);
+        return "portal/movie-detail";
+    }
+
+    @RequestMapping("/selectByName")
+    public String selectByName(Model model, String videoName){
+        if (StringUtils.isNoneBlank(videoName.trim())){
+            List<Video> videos = videoService.selectByName(videoName);
+            if(videos != null && videos.size () >0) {
+                model.addAttribute("video", videos.get(0));
+                return "portal/movie-detail";
+            }
+        }
+        return null;
+    }
 }

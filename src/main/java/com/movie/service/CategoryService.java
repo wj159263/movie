@@ -11,4 +11,11 @@ public interface CategoryService {
      * @return easyui组建所求的返回格式
      */
     public List selectAll(byte id);
+
+    /**
+     * 查找所有的分类
+     * @return
+     */
+    public List<Category> selectCategories();
+
 }

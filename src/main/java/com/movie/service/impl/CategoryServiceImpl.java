@@ -33,4 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return reList;
     }
+
+    @Override
+    public List<Category> selectCategories() {
+        CategoryExample example =new CategoryExample();
+        List<Category> result = categoryMapper.selectByExample(example);
+        return result;
+    }
 }

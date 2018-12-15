@@ -3,6 +3,8 @@ package com.movie.mapper;
 import com.movie.dto.EyUIGridResult;
 import com.movie.pojo.Video;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface VideoMapper {
@@ -61,4 +63,16 @@ public interface VideoMapper {
      */
   public  int updateVideoById(Video video);
 
+  /**
+   * 简单查询视频，用于protal首页用
+   * @return
+   */
+  public List<Map> selectVideosSimple();
+
+  /**
+   * 根据视频名称查找视频
+   * @param videoName 视频名称
+   * @return
+   */
+  public  List<Video> selectByName(String videoName);
 }
