@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private  static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private  static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserMapper userMapper;
@@ -35,11 +35,12 @@ public class UserServiceImpl implements UserService {
         if(list != null && list.size()>0 && StringUtils.isNoneBlank(password)){
             User user = list.get(0);
             if(DigestUtils.md5DigestAsHex(password.getBytes()).equals(user.getParrword())){
-                System.out.println("密码匹配成功");
                 request.getSession().setAttribute("SysUser",user);
                 returnURI = (String)request.getSession(false).getAttribute("URI");
-                System.out.println(user.getNickName()+"登陆了系统，时间："+ new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new Date()));
+                System.out.println(user.getNickName()+"ssys登陆了系统，时间："+ new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new Date()));
                 LOGGER.info(user.getNickName()+"登陆了系统，时间："+ new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new Date()));
+                System.out.println((LOGGER == null) +"111231231231");
+                LOGGER.error(user.getNickName()+"登陆了系统eerror，时间："+ new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒").format(new Date()));
             }else {
                 System.out.println("密码匹配失败");
                 //密码不匹配时

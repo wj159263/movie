@@ -3,7 +3,35 @@
 <div id="win"></div>
 <script type="text/javascript">
 $(function () {
+    var editIndex = undefined;
+
     $('#dg').datagrid({
+            onDblClickCell: function(index,field,value){
+                //alert("dblclick");
+                //结束编辑行, 可以不用，不会被调用，将在单击事件处理
+                if(editIndex != undefined){
+                    //alert(" onDblClickCell editIndex != undefined");
+                    $(this).datagrid('endEdit', editIndex);
+                    editIndex = undefined;
+                }
+                //alert("dbclick");
+                //设置可编辑行
+                $(this).datagrid('beginEdit', index);
+                editIndex = index;
+                //alert("dbclick");
+                var ed = $(this).datagrid('getEditor', {index:index,field:field});
+                //alert("field||index:"+field+index);
+                $(ed.target).focus();
+
+            },
+            onClickCell: function(index,field,value){
+                if(editIndex!= undefined){
+                    //var amount = $(this).datagrid('getEditor', {index:editIndex,field:"bodAmount"});
+
+                    $(this).datagrid('endEdit', editIndex);
+                    editIndex = undefined;
+                }
+            },
         rownumbers:true,
         nowrapL:true,
         pageSize : 10,
@@ -24,7 +52,7 @@ $(function () {
                     checkbox:true,
                 },
             {field:'videoId',title:'视频id',width:100},
-            {field:'name',title:'名字',width:100},
+            {field:'name',title:'名字',width:100,editor:{type:'text',options:{}}},
             {field:'title',title:'标题',width:100},
             {field:'image',title:'图片',width:100},
             {field:'category',title:'分类',width:100,
