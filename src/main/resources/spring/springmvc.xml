@@ -29,5 +29,5 @@
         <!-- 设定文件上传的最大值5MB，5*1024*1024 -->
         <property name="maxUploadSize" value="5242880"></property>
     </bean>
-
+    <bean class="com.movie.handler.CommonExceptionHandler"></bean>
 </beans>

@@ -43,6 +43,7 @@ public class CenterLoopServiceImpl implements CenterLoopService{
                 throw new Exception("轮播图添加数据错误");
             }
         }
+
         //轮播图数据改变则要删除redis中的轮播图数据
         redisDao.hdel("video:", "center");
 

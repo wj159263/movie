@@ -4,6 +4,9 @@ import com.movie.dto.EyUIGridResult;
 import com.movie.dto.VideoPortalDto;
 import com.movie.dto.VideoResult;
 import com.movie.enums.VideoEnum;
+import com.movie.exception.CanNotPlayException;
+import com.movie.exception.NoDataException;
+import com.movie.exception.SystemException;
 import com.movie.pojo.Category;
 import com.movie.pojo.User;
 import com.movie.pojo.Video;
@@ -93,32 +96,51 @@ public class VideoController {
     }
 //-*************portal页面的后台方法********************
     @RequestMapping("/portal")
-    public String showPortalIndex(Model model)throws Exception{
-        List<VideoPortalDto> value = videoService.selectVideosSimple();
-        List<Category> result = categoryService.selectCategories();
-        EyUIGridResult result1 = centerLoopService.selectList(1,100);
-        model.addAttribute("centerLoopList",result1.getRows());
-        model.addAttribute("videoList",value);
-        model.addAttribute("categories",result);
-        return "portal/index";
+    public String showPortalIndex(Model model)throws Exception,SystemException,NoDataException{
+       try{
+           List<VideoPortalDto> value = videoService.selectVideosSimple();
+           List<Category> result = categoryService.selectCategories();
+           EyUIGridResult result1 = centerLoopService.selectList(1,100);
+           model.addAttribute("centerLoopList",result1.getRows());
+           model.addAttribute("videoList",value);
+           model.addAttribute("categories",result);
+           return "portal/index";
+       }catch (SystemException e1){
+           throw e1;
+       }catch (NoDataException e2){
+           throw e2;
+       }
     }
 
     @RequestMapping("/selectSyc/{id}")
-    public String selectVideoById(Model model, @PathVariable("id") String id){
-        Video video= videoService.selectVideoById(id);
-        model.addAttribute("video",video);
-        return "portal/movie-detail";
+    public String selectVideoById(Model model, @PathVariable("id") String id) throws SystemException, NoDataException, CanNotPlayException{
+       try {
+           Video video= videoService.selectVideoById(id);
+           model.addAttribute("video",video);
+           return "portal/movie-detail";
+       }catch (SystemException e1){
+          throw e1;
+       }catch (NoDataException e2){
+           throw e2;
+       }catch (CanNotPlayException e3){
+           throw e3;
+       }
+
     }
 
     @RequestMapping("/selectByName")
-    public String selectByName(Model model, String videoName){
-        if (StringUtils.isNoneBlank(videoName.trim())){
-            List<Video> videos = videoService.selectByName(videoName);
-            if(videos != null && videos.size () >0) {
-                model.addAttribute("video", videos.get(0));
-                return "portal/movie-detail";
-            }
-        }
-        return null;
+    public String selectByName(Model model, String videoName)throws SystemException,NoDataException{
+      try{
+          if (StringUtils.isNoneBlank(videoName.trim())){
+              List<Video> videos = videoService.selectByName(videoName);
+              model.addAttribute("video", videos.get(0));
+              return "portal/movie-detail";
+          }
+          return null;
+      } catch (NoDataException e1) {
+          throw e1;
+      } catch (Exception e) {
+          throw new SystemException(e.getMessage());
+      }
     }
 }

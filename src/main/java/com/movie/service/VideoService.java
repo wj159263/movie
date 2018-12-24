@@ -3,6 +3,9 @@ package com.movie.service;
 import com.movie.dto.EyUIGridResult;
 import com.movie.dto.VideoPortalDto;
 import com.movie.dto.VideoResult;
+import com.movie.exception.CanNotPlayException;
+import com.movie.exception.NoDataException;
+import com.movie.exception.SystemException;
 import com.movie.pojo.Video;
 import com.movie.pojo.VideoDetail;
 
@@ -15,7 +18,7 @@ public interface VideoService {
      * @param id 视频id
      * @return Video对象
      */
-    public Video selectVideoById(String id);
+    public Video selectVideoById(String id) throws SystemException,NoDataException,CanNotPlayException;
 
     /**
      * 根据id查询视频(包含视频介绍)
@@ -66,13 +69,13 @@ public interface VideoService {
      * 简单查询视频，用于protal首页用
      * @return
      */
-    public List<VideoPortalDto> selectVideosSimple();
+    public List<VideoPortalDto> selectVideosSimple()throws SystemException,NoDataException;
 
     /**
      * 根据视频名称查找视频
      * @param videoName 视频名称
      * @return
      */
-    public  List<Video> selectByName(String videoName);
+    public  List<Video> selectByName(String videoName) throws SystemException,NoDataException,CanNotPlayException;
 
 }
